@@ -23,4 +23,16 @@ test('YouTube search works', async ({ page }) => {
 
   const results = page.locator('ytd-video-renderer');
   await expect(results.first()).toBeVisible();
+  }
+
+test('User can click a video from search results', async ({ page }) => {
+  await page.goto('https://www.youtube.com');
+
+  await page.fill('input[name="search_query"]', 'playwright');
+  await page.keyboard.press('Enter');
+
+  const firstVideo = page.locator('ytd-video-renderer').first();
+  await firstVideo.click();
+
+  await expect(page).toHaveURL(/watch/);
 });
